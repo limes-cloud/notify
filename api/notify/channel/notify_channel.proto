@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package notify.api.notify.channel.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.channel.v1";
+option java_outer_classname = "ChannelV1";
+
+import "validate/validate.proto";
+
+message ListChannelTypeRequest{}
+
+message ListChannelTypeReply{
+  message Type{
+    string keyword = 1;
+    string name = 2;
+  }
+  repeated Type list = 1;
+}
+
+message ListChannelRequest {
+  uint32 page = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 pageSize = 2[(validate.rules).uint32 = {gte: 1 ,lte: 50}];
+  optional string type = 3;
+  optional string name = 4;
+  optional bool status = 5;
+}
+
+message ListChannelReply {
+  message Channel {
+    uint32 id = 1;
+    string type = 2;
+    string name = 3;
+    optional string ak = 4;
+    optional string sk = 5;
+    optional string extra = 6;
+    optional bool status = 7;
+    uint32 createdAt = 8;
+    uint32 updatedAt = 9;
+  }
+
+  uint32 total = 1;
+  repeated Channel list = 2;
+}
+
+message CreateChannelRequest {
+  string type = 1[(validate.rules).string = {min_len: 1}];
+  string name = 2[(validate.rules).string = {min_len: 1}];
+  optional bool status = 3;
+  optional string ak = 4;
+  optional string sk = 5;
+  optional string extra = 6;
+}
+
+message CreateChannelReply {
+  uint32 id = 1;
+}
+
+message UpdateChannelRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+  string type = 2;
+  string name = 3;
+  optional bool status = 4;
+  optional string ak = 5;
+  optional string sk = 6;
+  optional string extra = 7;
+}
+
+message UpdateChannelReply {
+}
+
+message DeleteChannelRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message DeleteChannelReply {
+}
+

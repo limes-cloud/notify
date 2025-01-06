@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package notify.api.notify.template.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.template.v1";
+option java_outer_classname = "TemplateV1";
+
+import "validate/validate.proto";
+
+
+message ListTemplateRequest {
+  uint32 notifyId = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message ListTemplateReply {
+  message Channel {
+    uint32 id = 1;
+    string name = 2;
+  }
+  message Template {
+    uint32 id = 1;
+    uint32 notifyId = 2;
+    uint32 channelId = 3;
+    string content = 4;
+    optional bool status = 5;
+    optional uint32 weight = 6;
+    uint32 createdAt = 7;
+    uint32 updatedAt = 8;
+    Channel channel = 9;
+  }
+
+  repeated Template list = 1;
+}
+
+message CreateTemplateRequest {
+  uint32 notifyId = 1;
+  uint32 channelId = 2;
+  string content = 3;
+  optional bool status = 4;
+  optional uint32 weight = 5;
+}
+
+message CreateTemplateReply {
+  uint32 id = 1;
+}
+
+message UpdateTemplateRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 notifyId = 2;
+  uint32 channelId = 3;
+  string content = 4;
+  optional bool status = 5;
+  optional uint32 weight = 6;
+}
+
+message UpdateTemplateReply {
+}
+
+message DeleteTemplateRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message DeleteTemplateReply {
+}
+

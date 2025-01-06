@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package notify.api.notify.log.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.log.v1";
+option java_outer_classname = "LogV1";
+ 
+import "api/notify/log/notify_log.proto";
+import "google/api/annotations.proto";
+
+service Log{
+
+  // ListLog 获取发送渠道列表
+  rpc ListLog (ListLogRequest) returns (ListLogReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/logs",
+    };
+  }
+
+}

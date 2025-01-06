@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package notify.api.notify.notify.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.notify.v1";
+option java_outer_classname = "NotifyV1";
+
+import "validate/validate.proto";
+
+message ListNotifyCategoryRequest {
+  uint32 page = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 pageSize = 2[(validate.rules).uint32 = {gte: 1,lte:50}];
+  optional string name = 3;
+}
+
+message ListNotifyCategoryReply {
+  message NotifyCategory {
+    uint32 id = 1;
+    string name = 2;
+    string description = 3;
+    uint32 createdAt = 4;
+  }
+
+  uint32 total = 1;
+  repeated NotifyCategory list = 2;
+}
+
+message CreateNotifyCategoryRequest {
+  string name = 1[(validate.rules).string = {min_len: 1}];
+  string description = 2[(validate.rules).string = {min_len: 1}];
+}
+
+message CreateNotifyCategoryReply {
+  uint32 id = 1;
+}
+
+message UpdateNotifyCategoryRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+  string name = 2[(validate.rules).string = {min_len: 1}];
+  string description = 3[(validate.rules).string = {min_len: 1}];
+}
+
+message UpdateNotifyCategoryReply {
+}
+
+message DeleteNotifyCategoryRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message DeleteNotifyCategoryReply {
+}
+

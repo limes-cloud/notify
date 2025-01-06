@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package notify.api.notify.template.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.template.v1";
+option java_outer_classname = "TemplateV1";
+ 
+import "api/notify/template/notify_template.proto";
+import "google/api/annotations.proto";
+
+service Template{
+
+  // ListTemplate 获取发送渠道列表
+  rpc ListTemplate (ListTemplateRequest) returns (ListTemplateReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/templates",
+    };
+  }
+
+  // CreateTemplate 创建发送渠道
+  rpc CreateTemplate (CreateTemplateRequest) returns (CreateTemplateReply) {
+    option (google.api.http) = {
+      post: "/notify/api/v1/template",
+      body: "*"
+    };
+  }
+
+  // UpdateTemplate 更新发送渠道
+  rpc UpdateTemplate (UpdateTemplateRequest) returns (UpdateTemplateReply) {
+    option (google.api.http) = {
+      put: "/notify/api/v1/template",
+      body: "*"
+    };
+  }
+
+  // DeleteTemplate 删除发送渠道
+  rpc DeleteTemplate (DeleteTemplateRequest) returns (DeleteTemplateReply) {
+    option (google.api.http) = {
+      delete: "/notify/api/v1/template",
+    };
+  }
+
+}

@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package notify.api.notify.notify.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.notify.v1";
+option java_outer_classname = "NotifyV1";
+
+import "validate/validate.proto";
+
+message ListNotifyRequest {
+  uint32 page = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 pageSize = 2[(validate.rules).uint32 = {gte: 1,lte:50}];
+  optional uint32 categoryId = 3;
+  optional string status = 4;
+  optional string name = 5;
+  optional string keyword = 6;
+}
+
+message ListNotifyReply {
+  message Notify {
+    message Category {
+      uint32 id = 1;
+      string name = 2;
+    }
+    uint32 id = 1;
+    uint32 categoryId = 2;
+    string keyword = 3;
+    string name = 4;
+    string title = 5;
+    optional bool status = 6;
+    repeated string variable = 7;
+    string sendMode = 8;
+    optional bool isTimely = 9;
+    optional uint32 expire = 10;
+    optional uint32 cache = 11;
+    string description = 12;
+    uint32 createdAt =13;
+    uint32 updatedAt = 14;
+    optional Category category = 15;
+  }
+
+  uint32 total = 1;
+  repeated Notify list = 2;
+}
+
+message CreateNotifyRequest {
+  uint32 categoryId = 1;
+  string keyword = 2;
+  string name = 3;
+  string title = 4;
+  repeated string variable = 5;
+  string sendMode = 6;
+  optional bool isTimely = 7;
+  optional uint32 expire = 8;
+  optional uint32 cache = 9;
+  string description = 10;
+}
+
+message CreateNotifyReply {
+  uint32 id = 1;
+}
+
+message UpdateNotifyRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 categoryId = 2;
+  string keyword = 3;
+  string name = 4;
+  string title = 5;
+  optional bool status = 6;
+  repeated string variable = 7;
+  string sendMode = 8;
+  optional bool isTimely = 9;
+  optional uint32 expire = 10;
+  optional uint32 cache = 11;
+  string description = 12;
+}
+
+message UpdateNotifyReply {
+}
+
+message DeleteNotifyRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message DeleteNotifyReply {
+}
+

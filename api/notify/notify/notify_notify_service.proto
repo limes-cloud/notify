@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package notify.api.notify.notify.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.notify.v1";
+option java_outer_classname = "NotifyV1";
+
+import "api/notify/notify/notify_notify_category.proto";
+import "google/api/annotations.proto";
+import "api/notify/notify/notify_notify.proto";
+
+service Notify{
+
+  // ListNotifyCategory 获取通知分类列表
+  rpc ListNotifyCategory (ListNotifyCategoryRequest) returns (ListNotifyCategoryReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/notify_categories",
+      additional_bindings:{
+        get: "/notify/client/v1/notify_categories",
+      }
+    };
+  }
+
+  // CreateNotifyCategory 创建通知分类
+  rpc CreateNotifyCategory (CreateNotifyCategoryRequest) returns (CreateNotifyCategoryReply) {
+    option (google.api.http) = {
+      post: "/notify/api/v1/notify_category",
+      body: "*"
+    };
+  }
+
+  // UpdateNotifyCategory 更新通知分类
+  rpc UpdateNotifyCategory (UpdateNotifyCategoryRequest) returns (UpdateNotifyCategoryReply) {
+    option (google.api.http) = {
+      put: "/notify/api/v1/notify_category",
+      body: "*"
+    };
+  }
+
+  // DeleteNotifyCategory 删除通知分类
+  rpc DeleteNotifyCategory (DeleteNotifyCategoryRequest) returns (DeleteNotifyCategoryReply) {
+    option (google.api.http) = {
+      delete: "/notify/api/v1/notify_category",
+    };
+  }
+
+  // ListNotify 获取通知列表
+  rpc ListNotify (ListNotifyRequest) returns (ListNotifyReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/notifies",
+    };
+  }
+
+  // CreateNotify 创建通知
+  rpc CreateNotify (CreateNotifyRequest) returns (CreateNotifyReply) {
+    option (google.api.http) = {
+      post: "/notify/api/v1/notify",
+      body: "*"
+    };
+  }
+
+  // UpdateNotify 更新通知
+  rpc UpdateNotify (UpdateNotifyRequest) returns (UpdateNotifyReply) {
+    option (google.api.http) = {
+      put: "/notify/api/v1/notify",
+      body: "*"
+    };
+  }
+
+  // DeleteNotify 删除通知
+  rpc DeleteNotify (DeleteNotifyRequest) returns (DeleteNotifyReply) {
+    option (google.api.http) = {
+      delete: "/notify/api/v1/notify",
+    };
+  }
+
+}

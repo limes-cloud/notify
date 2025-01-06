@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package notify.api.notify.log.v1;
+
+option go_package = "./v1;v1";
+option java_multiple_files = true;
+option java_package = "notify.api.notify.log.v1";
+option java_outer_classname = "TemplateV1";
+
+import "validate/validate.proto";
+
+
+message ListLogRequest {
+  uint32 page = 1[(validate.rules).uint32 = {gte: 1}];
+  uint32 pageSize = 2[(validate.rules).uint32 = {gte: 1,lte:50}];
+  optional uint32 index = 3;
+  optional string user = 4;
+  optional uint32 notifyId = 5;
+  optional uint32 channelId = 6;
+}
+
+message ListLogReply {
+  message Channel {
+    uint32 id = 1;
+    string name = 2;
+  }
+  message Notify {
+    uint32 id = 1;
+    string name = 2;
+  }
+  message Log {
+    uint32 id = 1;
+    uint32 notifyId = 2;
+    uint32 channelId = 3;
+    string user = 4;
+    string content = 5;
+    string fromServer = 6;
+    string fromIp = 7;
+    optional bool status = 8;
+    optional string reason = 9;
+    uint32 createdAt = 10;
+    uint32 updatedAt = 11;
+    Channel channel = 12;
+    Notify notify = 13;
+  }
+
+  uint32 total = 1;
+  repeated Log list = 2;
+}

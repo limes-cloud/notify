@@ -48,4 +48,10 @@ service Channel{
     };
   }
 
+  // ListOfficialTemplate 获取公众号模板
+  rpc ListOfficialTemplate (ListOfficialTemplateRequest) returns (ListOfficialTemplateReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/channel/official_template",
+    };
+  }
 }

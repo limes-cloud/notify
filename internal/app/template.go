@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/gogo/protobuf/proto"
 	"github.com/limes-cloud/kratosx"
 	ktypes "github.com/limes-cloud/kratosx/types"
 
@@ -25,6 +26,7 @@ func NewTemplate(conf *conf.Config) *Template {
 		srv: service.NewTemplate(
 			conf,
 			dbs.NewTemplate(),
+			dbs.NewNotify(),
 		),
 	}
 }
@@ -45,6 +47,9 @@ func (fb *Template) ListTemplate(c context.Context, req *pb.ListTemplateRequest)
 	}
 	reply := pb.ListTemplateReply{}
 	for _, item := range list {
+		if item.Channel == nil {
+			continue
+		}
 		reply.List = append(reply.List, &pb.ListTemplateReply_Template{
 			Id:        item.Id,
 			NotifyId:  item.NotifyId,
@@ -57,6 +62,7 @@ func (fb *Template) ListTemplate(c context.Context, req *pb.ListTemplateRequest)
 			Channel: &pb.ListTemplateReply_Channel{
 				Id:   item.Channel.Id,
 				Name: item.Channel.Name,
+				Type: item.Channel.Type,
 			},
 		})
 	}
@@ -69,7 +75,7 @@ func (fb *Template) CreateTemplate(c context.Context, req *pb.CreateTemplateRequ
 		NotifyId:  req.NotifyId,
 		ChannelId: req.ChannelId,
 		Content:   req.Content,
-		Status:    req.Status,
+		Status:    proto.Bool(false),
 		Weight:    req.Weight,
 	})
 	if err != nil {

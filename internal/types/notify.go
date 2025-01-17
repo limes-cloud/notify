@@ -1,24 +1,6 @@
 package types
 
 type (
-	SendNotifyUser struct {
-		// 邮箱
-		Email string `json:"email"`
-
-		// 手机号
-		Phone string `json:"phone"`
-
-		// todo dingding 企业微信
-	}
-
-	SendNotifyRequest struct {
-		Priority  uint32         `json:"priority"`  // 优先级
-		Keyword   string         `json:"keyword"`   // 模板
-		User      SendNotifyUser `json:"user"`      // 用户
-		Variable  map[string]any `json:"variable"`  // 变量
-		Timestamp int64          `json:"timestamp"` // 时间
-	}
-
 	ListNotifyCategoryRequest struct {
 		Page     uint32  `json:"page"`
 		PageSize uint32  `json:"pageSize"`
@@ -32,5 +14,35 @@ type (
 		Status     *string `json:"status"`
 		Keyword    *string `json:"keyword"`
 		Name       *string `json:"name"`
+		Priority   *uint32 `json:"priority"`
+	}
+
+	SendNotifyUser struct {
+		Email          string `json:"email"`
+		OfficialOpenid string `json:"officialOpenid"`
+	}
+
+	SendNotifyRequest struct {
+		FromServer string            `json:"fromServer"`
+		Notify     string            `json:"notify"`    // 标识
+		User       *SendNotifyUser   `json:"user"`      // 用户
+		Variable   map[string]string `json:"variable"`  // 变量
+		Timestamp  int64             `json:"timestamp"` // 时间
+		IP         string            `json:"ip"`
+	}
+
+	SendNotifyInnerRequest struct {
+		FromServer string            `json:"fromServer"`
+		NotifyId   uint32            `json:"notifyId"`
+		ChannelId  uint32            `json:"channelId"`
+		User       string            `json:"user"`
+		Variable   map[string]string `json:"variable"`
+		Title      string            `json:"title"`
+		Content    string            `json:"content"`
+		Type       string            `json:"type"`
+		AK         string            `json:"ak"`
+		SK         string            `json:"sk"`
+		Extra      string            `json:"extra"`
+		IP         string            `json:"ip"`
 	}
 )

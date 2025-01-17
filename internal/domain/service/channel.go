@@ -12,20 +12,23 @@ import (
 )
 
 type Channel struct {
-	conf   *conf.Config
-	repo   repository.Channel
-	sender repository.Sender
+	conf     *conf.Config
+	repo     repository.Channel
+	sender   repository.Sender
+	official repository.Official
 }
 
 func NewChannel(
 	conf *conf.Config,
 	repo repository.Channel,
 	sender repository.Sender,
+	official repository.Official,
 ) *Channel {
 	return &Channel{
-		conf:   conf,
-		repo:   repo,
-		sender: sender,
+		conf:     conf,
+		repo:     repo,
+		sender:   sender,
+		official: official,
 	}
 }
 
@@ -76,4 +79,17 @@ func (u *Channel) DeleteChannel(ctx kratosx.Context, id uint32) error {
 		return errors.DeleteError(err.Error())
 	}
 	return nil
+}
+
+func (u *Channel) ListOfficialTemplate(ctx kratosx.Context, id uint32) ([]*types.OfficialTemplate, error) {
+	channel, err := u.repo.GetChannel(ctx, id)
+	if err != nil {
+		ctx.Logger().Errorw("msg", "get channel error", "err", err.Error())
+		return nil, errors.GetError(err.Error())
+	}
+
+	return u.official.ListTemplate(ctx, &types.OfficialAccount{
+		AppID:     channel.GetAkString(),
+		AppSecret: channel.GetSkString(),
+	})
 }

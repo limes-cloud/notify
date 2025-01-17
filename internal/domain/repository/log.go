@@ -13,10 +13,4 @@ type Log interface {
 
 	// CreateLog 创建通知分类
 	CreateLog(ctx kratosx.Context, req *entity.Log) (uint32, error)
-
-	// UpdateLog 更新通知分类
-	UpdateLog(ctx kratosx.Context, req *entity.Log) error
-
-	// DeleteLog 删除通知分类
-	DeleteLog(ctx kratosx.Context, id uint32) error
 }

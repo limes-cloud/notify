@@ -330,3 +330,63 @@ func ChannelCloseError(args ...any) *errors.Error {
 		return errors.New(500, ErrorReason_ChannelCloseError.String(), "当前渠道已关闭:"+msg)
 	}
 }
+
+func IsTemplateVariableError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_TemplateVariableError.String() && e.Code == 500
+}
+
+func TemplateVariableError(args ...any) *errors.Error {
+	switch len(args) {
+	case 0:
+		return errors.New(500, ErrorReason_TemplateVariableError.String(), "非法模板变量")
+	case 1:
+		return errors.New(500, ErrorReason_TemplateVariableError.String(), "非法模板变量:"+fmt.Sprint(args[0]))
+	default:
+		msg := fmt.Sprintf(fmt.Sprint(args[0]), args[1:]...)
+		return errors.New(500, ErrorReason_TemplateVariableError.String(), "非法模板变量:"+msg)
+	}
+}
+
+func IsSendNotifyError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_SendNotifyError.String() && e.Code == 500
+}
+
+func SendNotifyError(args ...any) *errors.Error {
+	switch len(args) {
+	case 0:
+		return errors.New(500, ErrorReason_SendNotifyError.String(), "发送通知失败")
+	case 1:
+		return errors.New(500, ErrorReason_SendNotifyError.String(), "发送通知失败:"+fmt.Sprint(args[0]))
+	default:
+		msg := fmt.Sprintf(fmt.Sprint(args[0]), args[1:]...)
+		return errors.New(500, ErrorReason_SendNotifyError.String(), "发送通知失败:"+msg)
+	}
+}
+
+func IsNotifyExpireError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_NotifyExpireError.String() && e.Code == 500
+}
+
+func NotifyExpireError(args ...any) *errors.Error {
+	switch len(args) {
+	case 0:
+		return errors.New(500, ErrorReason_NotifyExpireError.String(), "通知已失效")
+	case 1:
+		return errors.New(500, ErrorReason_NotifyExpireError.String(), "通知已失效:"+fmt.Sprint(args[0]))
+	default:
+		msg := fmt.Sprintf(fmt.Sprint(args[0]), args[1:]...)
+		return errors.New(500, ErrorReason_NotifyExpireError.String(), "通知已失效:"+msg)
+	}
+}

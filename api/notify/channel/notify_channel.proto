@@ -77,3 +77,22 @@ message DeleteChannelRequest {
 message DeleteChannelReply {
 }
 
+
+message ListOfficialTemplateRequest {
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message ListOfficialTemplateReply {
+  message Field{
+    string keyword = 1;
+    string name = 2;
+    string value = 3;
+    string color = 4;
+  }
+  message Template {
+    string templateId = 1;
+    string title = 2;
+    repeated Field fields = 3;
+  }
+  repeated Template list = 1;
+}

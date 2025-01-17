@@ -23,6 +23,7 @@ const OperationChannelCreateChannel = "/notify.api.notify.channel.v1.Channel/Cre
 const OperationChannelDeleteChannel = "/notify.api.notify.channel.v1.Channel/DeleteChannel"
 const OperationChannelListChannel = "/notify.api.notify.channel.v1.Channel/ListChannel"
 const OperationChannelListChannelType = "/notify.api.notify.channel.v1.Channel/ListChannelType"
+const OperationChannelListOfficialTemplate = "/notify.api.notify.channel.v1.Channel/ListOfficialTemplate"
 const OperationChannelUpdateChannel = "/notify.api.notify.channel.v1.Channel/UpdateChannel"
 
 type ChannelHTTPServer interface {
@@ -34,6 +35,8 @@ type ChannelHTTPServer interface {
 	ListChannel(context.Context, *ListChannelRequest) (*ListChannelReply, error)
 	// ListChannelType ListChannelType 获取发送渠道可用列表
 	ListChannelType(context.Context, *ListChannelTypeRequest) (*ListChannelTypeReply, error)
+	// ListOfficialTemplate ListOfficialTemplate 获取公众号模板
+	ListOfficialTemplate(context.Context, *ListOfficialTemplateRequest) (*ListOfficialTemplateReply, error)
 	// UpdateChannel UpdateChannel 更新发送渠道
 	UpdateChannel(context.Context, *UpdateChannelRequest) (*UpdateChannelReply, error)
 }
@@ -45,6 +48,7 @@ func RegisterChannelHTTPServer(s *http.Server, srv ChannelHTTPServer) {
 	r.POST("/notify/api/v1/channel", _Channel_CreateChannel0_HTTP_Handler(srv))
 	r.PUT("/notify/api/v1/channel", _Channel_UpdateChannel0_HTTP_Handler(srv))
 	r.DELETE("/notify/api/v1/channel", _Channel_DeleteChannel0_HTTP_Handler(srv))
+	r.GET("/notify/api/v1/channel/official_template", _Channel_ListOfficialTemplate0_HTTP_Handler(srv))
 }
 
 func _Channel_ListChannelType0_HTTP_Handler(srv ChannelHTTPServer) func(ctx http.Context) error {
@@ -148,11 +152,31 @@ func _Channel_DeleteChannel0_HTTP_Handler(srv ChannelHTTPServer) func(ctx http.C
 	}
 }
 
+func _Channel_ListOfficialTemplate0_HTTP_Handler(srv ChannelHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListOfficialTemplateRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationChannelListOfficialTemplate)
+		h := ctx.Middleware(func(ctx context.Context, req any) (any, error) {
+			return srv.ListOfficialTemplate(ctx, req.(*ListOfficialTemplateRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListOfficialTemplateReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ChannelHTTPClient interface {
 	CreateChannel(ctx context.Context, req *CreateChannelRequest, opts ...http.CallOption) (rsp *CreateChannelReply, err error)
 	DeleteChannel(ctx context.Context, req *DeleteChannelRequest, opts ...http.CallOption) (rsp *DeleteChannelReply, err error)
 	ListChannel(ctx context.Context, req *ListChannelRequest, opts ...http.CallOption) (rsp *ListChannelReply, err error)
 	ListChannelType(ctx context.Context, req *ListChannelTypeRequest, opts ...http.CallOption) (rsp *ListChannelTypeReply, err error)
+	ListOfficialTemplate(ctx context.Context, req *ListOfficialTemplateRequest, opts ...http.CallOption) (rsp *ListOfficialTemplateReply, err error)
 	UpdateChannel(ctx context.Context, req *UpdateChannelRequest, opts ...http.CallOption) (rsp *UpdateChannelReply, err error)
 }
 
@@ -208,6 +232,19 @@ func (c *ChannelHTTPClientImpl) ListChannelType(ctx context.Context, in *ListCha
 	pattern := "/notify/api/v1/channel/types"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationChannelListChannelType))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *ChannelHTTPClientImpl) ListOfficialTemplate(ctx context.Context, in *ListOfficialTemplateRequest, opts ...http.CallOption) (*ListOfficialTemplateReply, error) {
+	var out ListOfficialTemplateReply
+	pattern := "/notify/api/v1/channel/official_template"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationChannelListOfficialTemplate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

@@ -23,10 +23,13 @@ const (
 	Notify_CreateNotifyCategory_FullMethodName = "/notify.api.notify.notify.v1.Notify/CreateNotifyCategory"
 	Notify_UpdateNotifyCategory_FullMethodName = "/notify.api.notify.notify.v1.Notify/UpdateNotifyCategory"
 	Notify_DeleteNotifyCategory_FullMethodName = "/notify.api.notify.notify.v1.Notify/DeleteNotifyCategory"
+	Notify_GetNotify_FullMethodName            = "/notify.api.notify.notify.v1.Notify/GetNotify"
 	Notify_ListNotify_FullMethodName           = "/notify.api.notify.notify.v1.Notify/ListNotify"
 	Notify_CreateNotify_FullMethodName         = "/notify.api.notify.notify.v1.Notify/CreateNotify"
 	Notify_UpdateNotify_FullMethodName         = "/notify.api.notify.notify.v1.Notify/UpdateNotify"
 	Notify_DeleteNotify_FullMethodName         = "/notify.api.notify.notify.v1.Notify/DeleteNotify"
+	Notify_SendNotify_FullMethodName           = "/notify.api.notify.notify.v1.Notify/SendNotify"
+	Notify_AsyncSendNotify_FullMethodName      = "/notify.api.notify.notify.v1.Notify/AsyncSendNotify"
 )
 
 // NotifyClient is the client API for Notify service.
@@ -41,6 +44,8 @@ type NotifyClient interface {
 	UpdateNotifyCategory(ctx context.Context, in *UpdateNotifyCategoryRequest, opts ...grpc.CallOption) (*UpdateNotifyCategoryReply, error)
 	// DeleteNotifyCategory 删除通知分类
 	DeleteNotifyCategory(ctx context.Context, in *DeleteNotifyCategoryRequest, opts ...grpc.CallOption) (*DeleteNotifyCategoryReply, error)
+	// GetNotify 获取通知列表
+	GetNotify(ctx context.Context, in *GetNotifyRequest, opts ...grpc.CallOption) (*GetNotifyReply, error)
 	// ListNotify 获取通知列表
 	ListNotify(ctx context.Context, in *ListNotifyRequest, opts ...grpc.CallOption) (*ListNotifyReply, error)
 	// CreateNotify 创建通知
@@ -49,6 +54,10 @@ type NotifyClient interface {
 	UpdateNotify(ctx context.Context, in *UpdateNotifyRequest, opts ...grpc.CallOption) (*UpdateNotifyReply, error)
 	// DeleteNotify 删除通知
 	DeleteNotify(ctx context.Context, in *DeleteNotifyRequest, opts ...grpc.CallOption) (*DeleteNotifyReply, error)
+	// SendNotify 发送通知
+	SendNotify(ctx context.Context, in *SendNotifyRequest, opts ...grpc.CallOption) (*SendNotifyReply, error)
+	// SendNotify 异步发送通知
+	AsyncSendNotify(ctx context.Context, in *SendNotifyRequest, opts ...grpc.CallOption) (*SendNotifyReply, error)
 }
 
 type notifyClient struct {
@@ -95,6 +104,15 @@ func (c *notifyClient) DeleteNotifyCategory(ctx context.Context, in *DeleteNotif
 	return out, nil
 }
 
+func (c *notifyClient) GetNotify(ctx context.Context, in *GetNotifyRequest, opts ...grpc.CallOption) (*GetNotifyReply, error) {
+	out := new(GetNotifyReply)
+	err := c.cc.Invoke(ctx, Notify_GetNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *notifyClient) ListNotify(ctx context.Context, in *ListNotifyRequest, opts ...grpc.CallOption) (*ListNotifyReply, error) {
 	out := new(ListNotifyReply)
 	err := c.cc.Invoke(ctx, Notify_ListNotify_FullMethodName, in, out, opts...)
@@ -131,6 +149,24 @@ func (c *notifyClient) DeleteNotify(ctx context.Context, in *DeleteNotifyRequest
 	return out, nil
 }
 
+func (c *notifyClient) SendNotify(ctx context.Context, in *SendNotifyRequest, opts ...grpc.CallOption) (*SendNotifyReply, error) {
+	out := new(SendNotifyReply)
+	err := c.cc.Invoke(ctx, Notify_SendNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notifyClient) AsyncSendNotify(ctx context.Context, in *SendNotifyRequest, opts ...grpc.CallOption) (*SendNotifyReply, error) {
+	out := new(SendNotifyReply)
+	err := c.cc.Invoke(ctx, Notify_AsyncSendNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotifyServer is the server API for Notify service.
 // All implementations must embed UnimplementedNotifyServer
 // for forward compatibility
@@ -143,6 +179,8 @@ type NotifyServer interface {
 	UpdateNotifyCategory(context.Context, *UpdateNotifyCategoryRequest) (*UpdateNotifyCategoryReply, error)
 	// DeleteNotifyCategory 删除通知分类
 	DeleteNotifyCategory(context.Context, *DeleteNotifyCategoryRequest) (*DeleteNotifyCategoryReply, error)
+	// GetNotify 获取通知列表
+	GetNotify(context.Context, *GetNotifyRequest) (*GetNotifyReply, error)
 	// ListNotify 获取通知列表
 	ListNotify(context.Context, *ListNotifyRequest) (*ListNotifyReply, error)
 	// CreateNotify 创建通知
@@ -151,6 +189,10 @@ type NotifyServer interface {
 	UpdateNotify(context.Context, *UpdateNotifyRequest) (*UpdateNotifyReply, error)
 	// DeleteNotify 删除通知
 	DeleteNotify(context.Context, *DeleteNotifyRequest) (*DeleteNotifyReply, error)
+	// SendNotify 发送通知
+	SendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error)
+	// SendNotify 异步发送通知
+	AsyncSendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error)
 	mustEmbedUnimplementedNotifyServer()
 }
 
@@ -170,6 +212,9 @@ func (UnimplementedNotifyServer) UpdateNotifyCategory(context.Context, *UpdateNo
 func (UnimplementedNotifyServer) DeleteNotifyCategory(context.Context, *DeleteNotifyCategoryRequest) (*DeleteNotifyCategoryReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotifyCategory not implemented")
 }
+func (UnimplementedNotifyServer) GetNotify(context.Context, *GetNotifyRequest) (*GetNotifyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotify not implemented")
+}
 func (UnimplementedNotifyServer) ListNotify(context.Context, *ListNotifyRequest) (*ListNotifyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotify not implemented")
 }
@@ -181,6 +226,12 @@ func (UnimplementedNotifyServer) UpdateNotify(context.Context, *UpdateNotifyRequ
 }
 func (UnimplementedNotifyServer) DeleteNotify(context.Context, *DeleteNotifyRequest) (*DeleteNotifyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotify not implemented")
+}
+func (UnimplementedNotifyServer) SendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendNotify not implemented")
+}
+func (UnimplementedNotifyServer) AsyncSendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AsyncSendNotify not implemented")
 }
 func (UnimplementedNotifyServer) mustEmbedUnimplementedNotifyServer() {}
 
@@ -267,6 +318,24 @@ func _Notify_DeleteNotifyCategory_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Notify_GetNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifyServer).GetNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Notify_GetNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifyServer).GetNotify(ctx, req.(*GetNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Notify_ListNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListNotifyRequest)
 	if err := dec(in); err != nil {
@@ -339,6 +408,42 @@ func _Notify_DeleteNotify_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Notify_SendNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifyServer).SendNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Notify_SendNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifyServer).SendNotify(ctx, req.(*SendNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Notify_AsyncSendNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifyServer).AsyncSendNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Notify_AsyncSendNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifyServer).AsyncSendNotify(ctx, req.(*SendNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Notify_ServiceDesc is the grpc.ServiceDesc for Notify service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -363,6 +468,10 @@ var Notify_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Notify_DeleteNotifyCategory_Handler,
 		},
 		{
+			MethodName: "GetNotify",
+			Handler:    _Notify_GetNotify_Handler,
+		},
+		{
 			MethodName: "ListNotify",
 			Handler:    _Notify_ListNotify_Handler,
 		},
@@ -377,6 +486,14 @@ var Notify_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteNotify",
 			Handler:    _Notify_DeleteNotify_Handler,
+		},
+		{
+			MethodName: "SendNotify",
+			Handler:    _Notify_SendNotify_Handler,
+		},
+		{
+			MethodName: "AsyncSendNotify",
+			Handler:    _Notify_AsyncSendNotify_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -46,6 +46,13 @@ service Notify{
     };
   }
 
+  // GetNotify 获取通知列表
+  rpc GetNotify (GetNotifyRequest) returns (GetNotifyReply) {
+    option (google.api.http) = {
+      get: "/notify/api/v1/notify",
+    };
+  }
+
   // ListNotify 获取通知列表
   rpc ListNotify (ListNotifyRequest) returns (ListNotifyReply) {
     option (google.api.http) = {
@@ -73,6 +80,22 @@ service Notify{
   rpc DeleteNotify (DeleteNotifyRequest) returns (DeleteNotifyReply) {
     option (google.api.http) = {
       delete: "/notify/api/v1/notify",
+    };
+  }
+
+  // SendNotify 发送通知
+  rpc SendNotify (SendNotifyRequest) returns (SendNotifyReply) {
+    option (google.api.http) = {
+      post: "/notify/api/v1/notify/send",
+      body: "*"
+    };
+  }
+
+  // SendNotify 异步发送通知
+  rpc AsyncSendNotify (SendNotifyRequest) returns (SendNotifyReply) {
+    option (google.api.http) = {
+      post: "/notify/api/v1/notify/async_send",
+      body: "*"
     };
   }
 

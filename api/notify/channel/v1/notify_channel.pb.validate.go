@@ -1239,6 +1239,256 @@ var _ interface {
 	ErrorName() string
 } = DeleteChannelReplyValidationError{}
 
+// Validate checks the field values on ListOfficialTemplateRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListOfficialTemplateRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListOfficialTemplateRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListOfficialTemplateRequestMultiError, or nil if none found.
+func (m *ListOfficialTemplateRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListOfficialTemplateRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() < 1 {
+		err := ListOfficialTemplateRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than or equal to 1",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return ListOfficialTemplateRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListOfficialTemplateRequestMultiError is an error wrapping multiple
+// validation errors returned by ListOfficialTemplateRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ListOfficialTemplateRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListOfficialTemplateRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListOfficialTemplateRequestMultiError) AllErrors() []error { return m }
+
+// ListOfficialTemplateRequestValidationError is the validation error returned
+// by ListOfficialTemplateRequest.Validate if the designated constraints
+// aren't met.
+type ListOfficialTemplateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListOfficialTemplateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListOfficialTemplateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListOfficialTemplateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListOfficialTemplateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListOfficialTemplateRequestValidationError) ErrorName() string {
+	return "ListOfficialTemplateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListOfficialTemplateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListOfficialTemplateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListOfficialTemplateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListOfficialTemplateRequestValidationError{}
+
+// Validate checks the field values on ListOfficialTemplateReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListOfficialTemplateReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListOfficialTemplateReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListOfficialTemplateReplyMultiError, or nil if none found.
+func (m *ListOfficialTemplateReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListOfficialTemplateReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListOfficialTemplateReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListOfficialTemplateReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListOfficialTemplateReplyValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListOfficialTemplateReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListOfficialTemplateReplyMultiError is an error wrapping multiple validation
+// errors returned by ListOfficialTemplateReply.ValidateAll() if the
+// designated constraints aren't met.
+type ListOfficialTemplateReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListOfficialTemplateReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListOfficialTemplateReplyMultiError) AllErrors() []error { return m }
+
+// ListOfficialTemplateReplyValidationError is the validation error returned by
+// ListOfficialTemplateReply.Validate if the designated constraints aren't met.
+type ListOfficialTemplateReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListOfficialTemplateReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListOfficialTemplateReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListOfficialTemplateReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListOfficialTemplateReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListOfficialTemplateReplyValidationError) ErrorName() string {
+	return "ListOfficialTemplateReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListOfficialTemplateReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListOfficialTemplateReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListOfficialTemplateReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListOfficialTemplateReplyValidationError{}
+
 // Validate checks the field values on ListChannelTypeReply_Type with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1472,3 +1722,257 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListChannelReply_ChannelValidationError{}
+
+// Validate checks the field values on ListOfficialTemplateReply_Field with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListOfficialTemplateReply_Field) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListOfficialTemplateReply_Field with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// ListOfficialTemplateReply_FieldMultiError, or nil if none found.
+func (m *ListOfficialTemplateReply_Field) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListOfficialTemplateReply_Field) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Keyword
+
+	// no validation rules for Name
+
+	// no validation rules for Value
+
+	// no validation rules for Color
+
+	if len(errors) > 0 {
+		return ListOfficialTemplateReply_FieldMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListOfficialTemplateReply_FieldMultiError is an error wrapping multiple
+// validation errors returned by ListOfficialTemplateReply_Field.ValidateAll()
+// if the designated constraints aren't met.
+type ListOfficialTemplateReply_FieldMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListOfficialTemplateReply_FieldMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListOfficialTemplateReply_FieldMultiError) AllErrors() []error { return m }
+
+// ListOfficialTemplateReply_FieldValidationError is the validation error
+// returned by ListOfficialTemplateReply_Field.Validate if the designated
+// constraints aren't met.
+type ListOfficialTemplateReply_FieldValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListOfficialTemplateReply_FieldValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListOfficialTemplateReply_FieldValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListOfficialTemplateReply_FieldValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListOfficialTemplateReply_FieldValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListOfficialTemplateReply_FieldValidationError) ErrorName() string {
+	return "ListOfficialTemplateReply_FieldValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListOfficialTemplateReply_FieldValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListOfficialTemplateReply_Field.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListOfficialTemplateReply_FieldValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListOfficialTemplateReply_FieldValidationError{}
+
+// Validate checks the field values on ListOfficialTemplateReply_Template with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ListOfficialTemplateReply_Template) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListOfficialTemplateReply_Template
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ListOfficialTemplateReply_TemplateMultiError, or nil if none found.
+func (m *ListOfficialTemplateReply_Template) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListOfficialTemplateReply_Template) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TemplateId
+
+	// no validation rules for Title
+
+	for idx, item := range m.GetFields() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListOfficialTemplateReply_TemplateValidationError{
+						field:  fmt.Sprintf("Fields[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListOfficialTemplateReply_TemplateValidationError{
+						field:  fmt.Sprintf("Fields[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListOfficialTemplateReply_TemplateValidationError{
+					field:  fmt.Sprintf("Fields[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListOfficialTemplateReply_TemplateMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListOfficialTemplateReply_TemplateMultiError is an error wrapping multiple
+// validation errors returned by
+// ListOfficialTemplateReply_Template.ValidateAll() if the designated
+// constraints aren't met.
+type ListOfficialTemplateReply_TemplateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListOfficialTemplateReply_TemplateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListOfficialTemplateReply_TemplateMultiError) AllErrors() []error { return m }
+
+// ListOfficialTemplateReply_TemplateValidationError is the validation error
+// returned by ListOfficialTemplateReply_Template.Validate if the designated
+// constraints aren't met.
+type ListOfficialTemplateReply_TemplateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListOfficialTemplateReply_TemplateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListOfficialTemplateReply_TemplateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListOfficialTemplateReply_TemplateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListOfficialTemplateReply_TemplateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListOfficialTemplateReply_TemplateValidationError) ErrorName() string {
+	return "ListOfficialTemplateReply_TemplateValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListOfficialTemplateReply_TemplateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListOfficialTemplateReply_Template.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListOfficialTemplateReply_TemplateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListOfficialTemplateReply_TemplateValidationError{}

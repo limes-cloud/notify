@@ -1,27 +1,29 @@
-package queue
+package channel
 
-// todo kafka 消息队列
-const (
-	kafkaQueue = "notify:priority:queue"
-)
-
-type Conf struct {
-	Brokers        []string
-	Group          string
-	Topic          string
-	PlainMechanism struct {
-		Username string `json:",optional"`
-		Password string `json:",optional"`
-	}
-	Conns         int  `json:",default=1"`
-	Consumers     int  `json:",default=8"`
-	Processors    int  `json:",default=8"`
-	MinBytes      int  `json:",default=10240"`    // 10K
-	MaxBytes      int  `json:",default=10485760"` // 10M
-	ForceCommit   bool `json:",default=true"`
-	CommitInOrder bool `json:",default=false"`
-}
-
+//
+// import "sync"
+//
+// // todo kafka 消息队列
+// const (
+//	kafkaQueue = "notify:priority:queue"
+// )
+//
+// type Conf struct {
+//	Brokers        []string
+//	Group          string
+//	Topic          string
+//	PlainMechanism struct {
+//		Username string `json:",optional"`
+//		Password string `json:",optional"`
+//	}
+//	Conns         int  `json:",default=1"`
+//	Consumers     int  `json:",default=8"`
+//	Processors    int  `json:",default=8"`
+//	MinBytes      int  `json:",default=10240"`    // 10K
+//	MaxBytes      int  `json:",default=10485760"` // 10M
+//	ForceCommit   bool `json:",default=true"`
+//	CommitInOrder bool `json:",default=false"`
+// }
 //
 // type Kafka struct {
 //	r *kafka.Client

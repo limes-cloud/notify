@@ -20,12 +20,17 @@ func init() {
 }
 
 // NewEmail 初始化邮件发送器
-func NewEmail(ak string, sk string, extra *string) (ISender, error) {
-	if extra == nil {
+func NewEmail(opts ...ISenderInitOptionFunc) (ISender, error) {
+	options := &ISenderInitFuncOption{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.extra == "" {
 		return nil, errors.New("extra info in empty")
 	}
-	email := &Email{User: ak, Password: sk}
-	if err := json.Unmarshal([]byte(*extra), email); err != nil {
+	email := &Email{User: options.ak, Password: options.sk}
+	if err := json.Unmarshal([]byte(options.extra), email); err != nil {
 		return nil, err
 	}
 	return email, nil

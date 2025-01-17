@@ -974,6 +974,8 @@ func (m *ListTemplateReply_Channel) validate(all bool) error {
 
 	// no validation rules for Name
 
+	// no validation rules for Type
+
 	if len(errors) > 0 {
 		return ListTemplateReply_ChannelMultiError(errors)
 	}

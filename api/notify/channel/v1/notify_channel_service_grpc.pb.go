@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Channel_ListChannelType_FullMethodName = "/notify.api.notify.channel.v1.Channel/ListChannelType"
-	Channel_ListChannel_FullMethodName     = "/notify.api.notify.channel.v1.Channel/ListChannel"
-	Channel_CreateChannel_FullMethodName   = "/notify.api.notify.channel.v1.Channel/CreateChannel"
-	Channel_UpdateChannel_FullMethodName   = "/notify.api.notify.channel.v1.Channel/UpdateChannel"
-	Channel_DeleteChannel_FullMethodName   = "/notify.api.notify.channel.v1.Channel/DeleteChannel"
+	Channel_ListChannelType_FullMethodName      = "/notify.api.notify.channel.v1.Channel/ListChannelType"
+	Channel_ListChannel_FullMethodName          = "/notify.api.notify.channel.v1.Channel/ListChannel"
+	Channel_CreateChannel_FullMethodName        = "/notify.api.notify.channel.v1.Channel/CreateChannel"
+	Channel_UpdateChannel_FullMethodName        = "/notify.api.notify.channel.v1.Channel/UpdateChannel"
+	Channel_DeleteChannel_FullMethodName        = "/notify.api.notify.channel.v1.Channel/DeleteChannel"
+	Channel_ListOfficialTemplate_FullMethodName = "/notify.api.notify.channel.v1.Channel/ListOfficialTemplate"
 )
 
 // ChannelClient is the client API for Channel service.
@@ -40,6 +41,8 @@ type ChannelClient interface {
 	UpdateChannel(ctx context.Context, in *UpdateChannelRequest, opts ...grpc.CallOption) (*UpdateChannelReply, error)
 	// DeleteChannel 删除发送渠道
 	DeleteChannel(ctx context.Context, in *DeleteChannelRequest, opts ...grpc.CallOption) (*DeleteChannelReply, error)
+	// ListOfficialTemplate 获取公众号模板
+	ListOfficialTemplate(ctx context.Context, in *ListOfficialTemplateRequest, opts ...grpc.CallOption) (*ListOfficialTemplateReply, error)
 }
 
 type channelClient struct {
@@ -95,6 +98,15 @@ func (c *channelClient) DeleteChannel(ctx context.Context, in *DeleteChannelRequ
 	return out, nil
 }
 
+func (c *channelClient) ListOfficialTemplate(ctx context.Context, in *ListOfficialTemplateRequest, opts ...grpc.CallOption) (*ListOfficialTemplateReply, error) {
+	out := new(ListOfficialTemplateReply)
+	err := c.cc.Invoke(ctx, Channel_ListOfficialTemplate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChannelServer is the server API for Channel service.
 // All implementations must embed UnimplementedChannelServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type ChannelServer interface {
 	UpdateChannel(context.Context, *UpdateChannelRequest) (*UpdateChannelReply, error)
 	// DeleteChannel 删除发送渠道
 	DeleteChannel(context.Context, *DeleteChannelRequest) (*DeleteChannelReply, error)
+	// ListOfficialTemplate 获取公众号模板
+	ListOfficialTemplate(context.Context, *ListOfficialTemplateRequest) (*ListOfficialTemplateReply, error)
 	mustEmbedUnimplementedChannelServer()
 }
 
@@ -130,6 +144,9 @@ func (UnimplementedChannelServer) UpdateChannel(context.Context, *UpdateChannelR
 }
 func (UnimplementedChannelServer) DeleteChannel(context.Context, *DeleteChannelRequest) (*DeleteChannelReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteChannel not implemented")
+}
+func (UnimplementedChannelServer) ListOfficialTemplate(context.Context, *ListOfficialTemplateRequest) (*ListOfficialTemplateReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOfficialTemplate not implemented")
 }
 func (UnimplementedChannelServer) mustEmbedUnimplementedChannelServer() {}
 
@@ -234,6 +251,24 @@ func _Channel_DeleteChannel_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Channel_ListOfficialTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOfficialTemplateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChannelServer).ListOfficialTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Channel_ListOfficialTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChannelServer).ListOfficialTemplate(ctx, req.(*ListOfficialTemplateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Channel_ServiceDesc is the grpc.ServiceDesc for Channel service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +295,10 @@ var Channel_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteChannel",
 			Handler:    _Channel_DeleteChannel_Handler,
+		},
+		{
+			MethodName: "ListOfficialTemplate",
+			Handler:    _Channel_ListOfficialTemplate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

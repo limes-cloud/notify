@@ -1,9 +1,10 @@
-package queue
+package channel
 
 import (
 	"context"
 	"encoding/json"
 	"errors"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -25,30 +26,26 @@ func NewRedis(c *redis.Client) *Redis {
 
 // Pop 向优先队列中删除元素
 func (m *Redis) Pop() (*Item, error) {
-	res, err := m.r.BZPopMax(context.Background(), 0, redisQueue).Result()
+	res, err := m.r.BLPop(context.Background(), time.Minute, redisQueue).Result()
 	if err != nil {
 		return nil, err
 	}
-	strData, ok := res.Member.(string)
-	if !ok {
-		return nil, errors.New("redis data type error")
+
+	if len(res) != 2 {
+		return nil, errors.New("empty data")
 	}
 
 	item := &Item{}
-	if err := json.Unmarshal([]byte(strData), &item); err != nil {
+	if err := json.Unmarshal([]byte(res[1]), &item); err != nil {
 		return nil, errors.New("redis data unmarshal error")
 	}
-
 	return item, nil
 }
 
 // Push 向优先队列中添加元素
-func (m *Redis) Push(data *Item) error {
+func (m *Redis) Push(ctx context.Context, data *Item) error {
 	byteData, _ := json.Marshal(data)
-	return m.r.ZAdd(context.Background(), redisQueue, &redis.Z{
-		Score:  float64(data.Priority),
-		Member: string(byteData),
-	}).Err()
+	return m.r.RPush(ctx, redisQueue, string(byteData)).Err()
 }
 
 // Name 确认获取数据

@@ -592,6 +592,100 @@ func (*DeleteChannelReply) Descriptor() ([]byte, []int) {
 	return file_api_notify_channel_notify_channel_proto_rawDescGZIP(), []int{9}
 }
 
+type ListOfficialTemplateRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *ListOfficialTemplateRequest) Reset() {
+	*x = ListOfficialTemplateRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListOfficialTemplateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOfficialTemplateRequest) ProtoMessage() {}
+
+func (x *ListOfficialTemplateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOfficialTemplateRequest.ProtoReflect.Descriptor instead.
+func (*ListOfficialTemplateRequest) Descriptor() ([]byte, []int) {
+	return file_api_notify_channel_notify_channel_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListOfficialTemplateRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListOfficialTemplateReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	List []*ListOfficialTemplateReply_Template `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
+}
+
+func (x *ListOfficialTemplateReply) Reset() {
+	*x = ListOfficialTemplateReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListOfficialTemplateReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOfficialTemplateReply) ProtoMessage() {}
+
+func (x *ListOfficialTemplateReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOfficialTemplateReply.ProtoReflect.Descriptor instead.
+func (*ListOfficialTemplateReply) Descriptor() ([]byte, []int) {
+	return file_api_notify_channel_notify_channel_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListOfficialTemplateReply) GetList() []*ListOfficialTemplateReply_Template {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
 type ListChannelTypeReply_Type struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -604,7 +698,7 @@ type ListChannelTypeReply_Type struct {
 func (x *ListChannelTypeReply_Type) Reset() {
 	*x = ListChannelTypeReply_Type{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[10]
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -617,7 +711,7 @@ func (x *ListChannelTypeReply_Type) String() string {
 func (*ListChannelTypeReply_Type) ProtoMessage() {}
 
 func (x *ListChannelTypeReply_Type) ProtoReflect() protoreflect.Message {
-	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[10]
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -666,7 +760,7 @@ type ListChannelReply_Channel struct {
 func (x *ListChannelReply_Channel) Reset() {
 	*x = ListChannelReply_Channel{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[11]
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -679,7 +773,7 @@ func (x *ListChannelReply_Channel) String() string {
 func (*ListChannelReply_Channel) ProtoMessage() {}
 
 func (x *ListChannelReply_Channel) ProtoReflect() protoreflect.Message {
-	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[11]
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -756,6 +850,140 @@ func (x *ListChannelReply_Channel) GetUpdatedAt() uint32 {
 		return x.UpdatedAt
 	}
 	return 0
+}
+
+type ListOfficialTemplateReply_Field struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Keyword string `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
+	Name    string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Value   string `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+	Color   string `protobuf:"bytes,4,opt,name=color,proto3" json:"color,omitempty"`
+}
+
+func (x *ListOfficialTemplateReply_Field) Reset() {
+	*x = ListOfficialTemplateReply_Field{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListOfficialTemplateReply_Field) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOfficialTemplateReply_Field) ProtoMessage() {}
+
+func (x *ListOfficialTemplateReply_Field) ProtoReflect() protoreflect.Message {
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOfficialTemplateReply_Field.ProtoReflect.Descriptor instead.
+func (*ListOfficialTemplateReply_Field) Descriptor() ([]byte, []int) {
+	return file_api_notify_channel_notify_channel_proto_rawDescGZIP(), []int{11, 0}
+}
+
+func (x *ListOfficialTemplateReply_Field) GetKeyword() string {
+	if x != nil {
+		return x.Keyword
+	}
+	return ""
+}
+
+func (x *ListOfficialTemplateReply_Field) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ListOfficialTemplateReply_Field) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+func (x *ListOfficialTemplateReply_Field) GetColor() string {
+	if x != nil {
+		return x.Color
+	}
+	return ""
+}
+
+type ListOfficialTemplateReply_Template struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TemplateId string                             `protobuf:"bytes,1,opt,name=templateId,proto3" json:"templateId,omitempty"`
+	Title      string                             `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Fields     []*ListOfficialTemplateReply_Field `protobuf:"bytes,3,rep,name=fields,proto3" json:"fields,omitempty"`
+}
+
+func (x *ListOfficialTemplateReply_Template) Reset() {
+	*x = ListOfficialTemplateReply_Template{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_notify_channel_notify_channel_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListOfficialTemplateReply_Template) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListOfficialTemplateReply_Template) ProtoMessage() {}
+
+func (x *ListOfficialTemplateReply_Template) ProtoReflect() protoreflect.Message {
+	mi := &file_api_notify_channel_notify_channel_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListOfficialTemplateReply_Template.ProtoReflect.Descriptor instead.
+func (*ListOfficialTemplateReply_Template) Descriptor() ([]byte, []int) {
+	return file_api_notify_channel_notify_channel_proto_rawDescGZIP(), []int{11, 1}
+}
+
+func (x *ListOfficialTemplateReply_Template) GetTemplateId() string {
+	if x != nil {
+		return x.TemplateId
+	}
+	return ""
+}
+
+func (x *ListOfficialTemplateReply_Template) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ListOfficialTemplateReply_Template) GetFields() []*ListOfficialTemplateReply_Field {
+	if x != nil {
+		return x.Fields
+	}
+	return nil
 }
 
 var File_api_notify_channel_notify_channel_proto protoreflect.FileDescriptor
@@ -850,11 +1078,37 @@ var file_api_notify_channel_notify_channel_proto_rawDesc = []byte{
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
 	0x42, 0x07, 0xfa, 0x42, 0x04, 0x2a, 0x02, 0x28, 0x01, 0x52, 0x02, 0x69, 0x64, 0x22, 0x14, 0x0a,
 	0x12, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x42, 0x34, 0x0a, 0x1c, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c,
-	0x2e, 0x76, 0x31, 0x42, 0x09, 0x43, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x56, 0x31, 0x50, 0x01,
-	0x5a, 0x07, 0x2e, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x70, 0x6c, 0x79, 0x22, 0x36, 0x0a, 0x1b, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x66, 0x66, 0x69, 0x63,
+	0x69, 0x61, 0x6c, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x42, 0x07,
+	0xfa, 0x42, 0x04, 0x2a, 0x02, 0x28, 0x01, 0x52, 0x02, 0x69, 0x64, 0x22, 0xee, 0x02, 0x0a, 0x19,
+	0x4c, 0x69, 0x73, 0x74, 0x4f, 0x66, 0x66, 0x69, 0x63, 0x69, 0x61, 0x6c, 0x54, 0x65, 0x6d, 0x70,
+	0x6c, 0x61, 0x74, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x54, 0x0a, 0x04, 0x6c, 0x69, 0x73,
+	0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x40, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x63, 0x68, 0x61, 0x6e,
+	0x6e, 0x65, 0x6c, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x66, 0x66, 0x69, 0x63,
+	0x69, 0x61, 0x6c, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79,
+	0x2e, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x1a,
+	0x61, 0x0a, 0x05, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x6b, 0x65, 0x79, 0x77,
+	0x6f, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6b, 0x65, 0x79, 0x77, 0x6f,
+	0x72, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x14, 0x0a, 0x05,
+	0x63, 0x6f, 0x6c, 0x6f, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x6f, 0x6c,
+	0x6f, 0x72, 0x1a, 0x97, 0x01, 0x0a, 0x08, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x12,
+	0x1e, 0x0a, 0x0a, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0a, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x49, 0x64, 0x12,
+	0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x55, 0x0a, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18,
+	0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3d, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65,
+	0x6c, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x66, 0x66, 0x69, 0x63, 0x69, 0x61,
+	0x6c, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x46,
+	0x69, 0x65, 0x6c, 0x64, 0x52, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x42, 0x34, 0x0a, 0x1c,
+	0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66,
+	0x79, 0x2e, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x2e, 0x76, 0x31, 0x42, 0x09, 0x43, 0x68,
+	0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x56, 0x31, 0x50, 0x01, 0x5a, 0x07, 0x2e, 0x2f, 0x76, 0x31, 0x3b,
+	0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -869,29 +1123,35 @@ func file_api_notify_channel_notify_channel_proto_rawDescGZIP() []byte {
 	return file_api_notify_channel_notify_channel_proto_rawDescData
 }
 
-var file_api_notify_channel_notify_channel_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_api_notify_channel_notify_channel_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_api_notify_channel_notify_channel_proto_goTypes = []interface{}{
-	(*ListChannelTypeRequest)(nil),    // 0: notify.api.notify.channel.v1.ListChannelTypeRequest
-	(*ListChannelTypeReply)(nil),      // 1: notify.api.notify.channel.v1.ListChannelTypeReply
-	(*ListChannelRequest)(nil),        // 2: notify.api.notify.channel.v1.ListChannelRequest
-	(*ListChannelReply)(nil),          // 3: notify.api.notify.channel.v1.ListChannelReply
-	(*CreateChannelRequest)(nil),      // 4: notify.api.notify.channel.v1.CreateChannelRequest
-	(*CreateChannelReply)(nil),        // 5: notify.api.notify.channel.v1.CreateChannelReply
-	(*UpdateChannelRequest)(nil),      // 6: notify.api.notify.channel.v1.UpdateChannelRequest
-	(*UpdateChannelReply)(nil),        // 7: notify.api.notify.channel.v1.UpdateChannelReply
-	(*DeleteChannelRequest)(nil),      // 8: notify.api.notify.channel.v1.DeleteChannelRequest
-	(*DeleteChannelReply)(nil),        // 9: notify.api.notify.channel.v1.DeleteChannelReply
-	(*ListChannelTypeReply_Type)(nil), // 10: notify.api.notify.channel.v1.ListChannelTypeReply.Type
-	(*ListChannelReply_Channel)(nil),  // 11: notify.api.notify.channel.v1.ListChannelReply.Channel
+	(*ListChannelTypeRequest)(nil),             // 0: notify.api.notify.channel.v1.ListChannelTypeRequest
+	(*ListChannelTypeReply)(nil),               // 1: notify.api.notify.channel.v1.ListChannelTypeReply
+	(*ListChannelRequest)(nil),                 // 2: notify.api.notify.channel.v1.ListChannelRequest
+	(*ListChannelReply)(nil),                   // 3: notify.api.notify.channel.v1.ListChannelReply
+	(*CreateChannelRequest)(nil),               // 4: notify.api.notify.channel.v1.CreateChannelRequest
+	(*CreateChannelReply)(nil),                 // 5: notify.api.notify.channel.v1.CreateChannelReply
+	(*UpdateChannelRequest)(nil),               // 6: notify.api.notify.channel.v1.UpdateChannelRequest
+	(*UpdateChannelReply)(nil),                 // 7: notify.api.notify.channel.v1.UpdateChannelReply
+	(*DeleteChannelRequest)(nil),               // 8: notify.api.notify.channel.v1.DeleteChannelRequest
+	(*DeleteChannelReply)(nil),                 // 9: notify.api.notify.channel.v1.DeleteChannelReply
+	(*ListOfficialTemplateRequest)(nil),        // 10: notify.api.notify.channel.v1.ListOfficialTemplateRequest
+	(*ListOfficialTemplateReply)(nil),          // 11: notify.api.notify.channel.v1.ListOfficialTemplateReply
+	(*ListChannelTypeReply_Type)(nil),          // 12: notify.api.notify.channel.v1.ListChannelTypeReply.Type
+	(*ListChannelReply_Channel)(nil),           // 13: notify.api.notify.channel.v1.ListChannelReply.Channel
+	(*ListOfficialTemplateReply_Field)(nil),    // 14: notify.api.notify.channel.v1.ListOfficialTemplateReply.Field
+	(*ListOfficialTemplateReply_Template)(nil), // 15: notify.api.notify.channel.v1.ListOfficialTemplateReply.Template
 }
 var file_api_notify_channel_notify_channel_proto_depIdxs = []int32{
-	10, // 0: notify.api.notify.channel.v1.ListChannelTypeReply.list:type_name -> notify.api.notify.channel.v1.ListChannelTypeReply.Type
-	11, // 1: notify.api.notify.channel.v1.ListChannelReply.list:type_name -> notify.api.notify.channel.v1.ListChannelReply.Channel
-	2,  // [2:2] is the sub-list for method output_type
-	2,  // [2:2] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	12, // 0: notify.api.notify.channel.v1.ListChannelTypeReply.list:type_name -> notify.api.notify.channel.v1.ListChannelTypeReply.Type
+	13, // 1: notify.api.notify.channel.v1.ListChannelReply.list:type_name -> notify.api.notify.channel.v1.ListChannelReply.Channel
+	15, // 2: notify.api.notify.channel.v1.ListOfficialTemplateReply.list:type_name -> notify.api.notify.channel.v1.ListOfficialTemplateReply.Template
+	14, // 3: notify.api.notify.channel.v1.ListOfficialTemplateReply.Template.fields:type_name -> notify.api.notify.channel.v1.ListOfficialTemplateReply.Field
+	4,  // [4:4] is the sub-list for method output_type
+	4,  // [4:4] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_api_notify_channel_notify_channel_proto_init() }
@@ -1021,7 +1281,7 @@ func file_api_notify_channel_notify_channel_proto_init() {
 			}
 		}
 		file_api_notify_channel_notify_channel_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListChannelTypeReply_Type); i {
+			switch v := v.(*ListOfficialTemplateRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1033,7 +1293,55 @@ func file_api_notify_channel_notify_channel_proto_init() {
 			}
 		}
 		file_api_notify_channel_notify_channel_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListOfficialTemplateReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_notify_channel_notify_channel_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListChannelTypeReply_Type); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_notify_channel_notify_channel_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListChannelReply_Channel); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_notify_channel_notify_channel_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListOfficialTemplateReply_Field); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_notify_channel_notify_channel_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListOfficialTemplateReply_Template); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1048,14 +1356,14 @@ func file_api_notify_channel_notify_channel_proto_init() {
 	file_api_notify_channel_notify_channel_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	file_api_notify_channel_notify_channel_proto_msgTypes[4].OneofWrappers = []interface{}{}
 	file_api_notify_channel_notify_channel_proto_msgTypes[6].OneofWrappers = []interface{}{}
-	file_api_notify_channel_notify_channel_proto_msgTypes[11].OneofWrappers = []interface{}{}
+	file_api_notify_channel_notify_channel_proto_msgTypes[13].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_notify_channel_notify_channel_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

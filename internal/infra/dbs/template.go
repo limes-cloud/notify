@@ -30,7 +30,9 @@ func (r Template) ListTemplate(ctx kratosx.Context, nid uint32) ([]*entity.Templ
 		fs   = []string{"*"}
 	)
 
-	db := ctx.DB().Model(entity.Template{}).Select(fs).Where("notify_id = ?", nid)
+	db := ctx.DB().Model(entity.Template{}).
+		Preload("Channel", "status=true").
+		Select(fs).Where("notify_id = ?", nid)
 	db = db.Order("weight desc, id asc")
 	return list, db.Find(&list).Error
 }

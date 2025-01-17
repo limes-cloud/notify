@@ -15,6 +15,8 @@ import (
 	"github.com/limes-cloud/notify/internal/domain/entity"
 	"github.com/limes-cloud/notify/internal/domain/service"
 	"github.com/limes-cloud/notify/internal/infra/dbs"
+	"github.com/limes-cloud/notify/internal/infra/queue"
+	"github.com/limes-cloud/notify/internal/infra/sender"
 	"github.com/limes-cloud/notify/internal/types"
 )
 
@@ -28,6 +30,10 @@ func NewNotify(conf *conf.Config) *Notify {
 		srv: service.NewNotify(
 			conf,
 			dbs.NewNotify(),
+			dbs.NewTemplate(),
+			sender.NewSender(),
+			dbs.NewLog(),
+			queue.NewQueue(conf),
 		),
 	}
 }
@@ -94,6 +100,30 @@ func (fb *Notify) DeleteNotifyCategory(c context.Context, req *pb.DeleteNotifyCa
 	return &pb.DeleteNotifyCategoryReply{}, nil
 }
 
+// GetNotify 获取指定通知
+func (fb *Notify) GetNotify(c context.Context, req *pb.GetNotifyRequest) (*pb.GetNotifyReply, error) {
+	res, err := fb.srv.GetNotify(kratosx.MustContext(c), req.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetNotifyReply{
+		Id:          res.Id,
+		CategoryId:  res.CategoryId,
+		Keyword:     res.Keyword,
+		Name:        res.Name,
+		Title:       res.Title,
+		Status:      res.Status,
+		Variable:    strings.Split(res.Variable, ","),
+		Priority:    res.Priority,
+		SendMode:    res.SendMode,
+		Expire:      res.Expire,
+		Cache:       res.Cache,
+		Description: res.Description,
+		CreatedAt:   uint32(res.CreatedAt),
+		UpdatedAt:   uint32(res.UpdatedAt),
+	}, nil
+}
+
 // ListNotify 获取通知列表
 func (fb *Notify) ListNotify(c context.Context, req *pb.ListNotifyRequest) (*pb.ListNotifyReply, error) {
 	list, total, err := fb.srv.ListNotify(kratosx.MustContext(c), &types.ListNotifyRequest{
@@ -117,8 +147,8 @@ func (fb *Notify) ListNotify(c context.Context, req *pb.ListNotifyRequest) (*pb.
 			Title:       item.Title,
 			Status:      item.Status,
 			Variable:    strings.Split(item.Variable, ","),
+			Priority:    item.Priority,
 			SendMode:    item.SendMode,
-			IsTimely:    item.IsTimely,
 			Expire:      item.Expire,
 			Cache:       item.Cache,
 			Description: item.Description,
@@ -142,8 +172,8 @@ func (fb *Notify) CreateNotify(c context.Context, req *pb.CreateNotifyRequest) (
 		Title:       req.Title,
 		Status:      proto.Bool(false),
 		Variable:    strings.Join(req.Variable, ","),
+		Priority:    req.Priority,
 		SendMode:    req.SendMode,
-		IsTimely:    req.IsTimely,
 		Expire:      req.Expire,
 		Cache:       req.Cache,
 		Description: req.Description,
@@ -171,9 +201,9 @@ func (fb *Notify) UpdateNotify(c context.Context, req *pb.UpdateNotifyRequest) (
 		Name:        req.Name,
 		Title:       req.Title,
 		Status:      req.Status,
+		Priority:    req.Priority,
 		Variable:    strings.Join(req.Variable, ","),
 		SendMode:    req.SendMode,
-		IsTimely:    req.IsTimely,
 		Expire:      req.Expire,
 		Cache:       req.Cache,
 		Description: req.Description,
@@ -181,4 +211,42 @@ func (fb *Notify) UpdateNotify(c context.Context, req *pb.UpdateNotifyRequest) (
 		return nil, err
 	}
 	return &pb.UpdateNotifyReply{}, nil
+}
+
+// SendNotify 发送通知
+func (fb *Notify) SendNotify(c context.Context, req *pb.SendNotifyRequest) (*pb.SendNotifyReply, error) {
+	ctx := kratosx.MustContext(c)
+	if err := fb.srv.SendNotify(ctx, &types.SendNotifyRequest{
+		Notify:   req.Notify,
+		Variable: req.Variable,
+		User: &types.SendNotifyUser{
+			Email:          req.User.GetEmail(),
+			OfficialOpenid: req.User.GetOfficialOpenid(),
+		},
+		Timestamp:  req.Timestamp,
+		FromServer: req.FromServer,
+		IP:         ctx.ClientIP(),
+	}); err != nil {
+		return nil, err
+	}
+	return &pb.SendNotifyReply{}, nil
+}
+
+// AsyncSendNotify 异步发送通知
+func (fb *Notify) AsyncSendNotify(c context.Context, req *pb.SendNotifyRequest) (*pb.SendNotifyReply, error) {
+	ctx := kratosx.MustContext(c)
+	if err := fb.srv.AsyncSendNotify(kratosx.MustContext(c), &types.SendNotifyRequest{
+		Notify:   req.Notify,
+		Variable: req.Variable,
+		User: &types.SendNotifyUser{
+			Email:          req.User.GetEmail(),
+			OfficialOpenid: req.User.GetOfficialOpenid(),
+		},
+		Timestamp:  req.Timestamp,
+		FromServer: req.FromServer,
+		IP:         ctx.ClientIP(),
+	}); err != nil {
+		return nil, err
+	}
+	return &pb.SendNotifyReply{}, nil
 }

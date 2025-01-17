@@ -53,6 +53,8 @@ redis:
     host: 127.0.0.1:6379
     username:
     password:
+pool:
+  size: 100
 #loader:
 #  password: static/cert/password.pem
 business:

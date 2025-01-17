@@ -29,10 +29,9 @@ func (r Log) ListLog(ctx kratosx.Context, req *types.ListLogRequest) ([]*entity.
 	var (
 		m     = entity.Log{}
 		list  []*entity.Log
-		fs    = []string{"*"}
 		total int64
 	)
-	db := ctx.DB().Model(entity.Channel{}).Select(fs)
+	db := ctx.DB().Model(entity.Log{}).Preload("Channel").Preload("Notify")
 
 	if req.User != nil {
 		m.User = *req.User

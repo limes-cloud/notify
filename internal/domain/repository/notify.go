@@ -23,6 +23,9 @@ type Notify interface {
 	// GetNotify 获取通知
 	GetNotify(ctx kratosx.Context, id uint32) (*entity.Notify, error)
 
+	// GetNotifyByKeyword 获取通知
+	GetNotifyByKeyword(ctx kratosx.Context, keyword string) (*entity.Notify, error)
+
 	// ListNotify 获取通知列表
 	ListNotify(ctx kratosx.Context, req *types.ListNotifyRequest) ([]*entity.Notify, uint32, error)
 

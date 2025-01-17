@@ -24,4 +24,7 @@ enum ErrorReason {
   RevertTrashError = 13[(errors.message)="还原回收站数据失败"];
   SystemError = 14[(errors.message)="系统错误"];
   ChannelCloseError = 15[(errors.message)="当前渠道已关闭"];
+  TemplateVariableError = 16[(errors.message)="非法模板变量"];
+  SendNotifyError = 17[(errors.message)="发送通知失败"];
+  NotifyExpireError = 18[(errors.message)="通知已失效"];
 }

@@ -80,6 +80,15 @@ func (r Notify) GetNotify(ctx kratosx.Context, id uint32) (*entity.Notify, error
 	return &feedback, ctx.DB().Select(fs).First(&feedback, id).Error
 }
 
+// GetNotifyByKeyword 获取指定的数据
+func (r Notify) GetNotifyByKeyword(ctx kratosx.Context, keyword string) (*entity.Notify, error) {
+	var (
+		feedback = entity.Notify{}
+		fs       = []string{"*"}
+	)
+	return &feedback, ctx.DB().Select(fs).First(&feedback, "keyword=?", keyword).Error
+}
+
 // ListNotify 获取列表
 func (r Notify) ListNotify(ctx kratosx.Context, req *types.ListNotifyRequest) ([]*entity.Notify, uint32, error) {
 	var (
@@ -102,6 +111,9 @@ func (r Notify) ListNotify(ctx kratosx.Context, req *types.ListNotifyRequest) ([
 	}
 	if req.Keyword != nil {
 		db = db.Where("keyword = ?", *req.Keyword)
+	}
+	if req.Priority != nil {
+		db = db.Where("priority = ?", *req.Priority)
 	}
 
 	if err := db.Count(&total).Error; err != nil {

@@ -556,6 +556,10 @@ func (m *ListLogReply_Log) validate(all bool) error {
 
 	// no validation rules for FromIp
 
+	// no validation rules for Status
+
+	// no validation rules for Reason
+
 	// no validation rules for CreatedAt
 
 	// no validation rules for UpdatedAt
@@ -616,14 +620,6 @@ func (m *ListLogReply_Log) validate(all bool) error {
 				cause:  err,
 			}
 		}
-	}
-
-	if m.Status != nil {
-		// no validation rules for Status
-	}
-
-	if m.Reason != nil {
-		// no validation rules for Reason
 	}
 
 	if len(errors) > 0 {

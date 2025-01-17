@@ -19,16 +19,21 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationNotifyAsyncSendNotify = "/notify.api.notify.notify.v1.Notify/AsyncSendNotify"
 const OperationNotifyCreateNotify = "/notify.api.notify.notify.v1.Notify/CreateNotify"
 const OperationNotifyCreateNotifyCategory = "/notify.api.notify.notify.v1.Notify/CreateNotifyCategory"
 const OperationNotifyDeleteNotify = "/notify.api.notify.notify.v1.Notify/DeleteNotify"
 const OperationNotifyDeleteNotifyCategory = "/notify.api.notify.notify.v1.Notify/DeleteNotifyCategory"
+const OperationNotifyGetNotify = "/notify.api.notify.notify.v1.Notify/GetNotify"
 const OperationNotifyListNotify = "/notify.api.notify.notify.v1.Notify/ListNotify"
 const OperationNotifyListNotifyCategory = "/notify.api.notify.notify.v1.Notify/ListNotifyCategory"
+const OperationNotifySendNotify = "/notify.api.notify.notify.v1.Notify/SendNotify"
 const OperationNotifyUpdateNotify = "/notify.api.notify.notify.v1.Notify/UpdateNotify"
 const OperationNotifyUpdateNotifyCategory = "/notify.api.notify.notify.v1.Notify/UpdateNotifyCategory"
 
 type NotifyHTTPServer interface {
+	// AsyncSendNotify SendNotify 异步发送通知
+	AsyncSendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error)
 	// CreateNotify CreateNotify 创建通知
 	CreateNotify(context.Context, *CreateNotifyRequest) (*CreateNotifyReply, error)
 	// CreateNotifyCategory CreateNotifyCategory 创建通知分类
@@ -37,10 +42,14 @@ type NotifyHTTPServer interface {
 	DeleteNotify(context.Context, *DeleteNotifyRequest) (*DeleteNotifyReply, error)
 	// DeleteNotifyCategory DeleteNotifyCategory 删除通知分类
 	DeleteNotifyCategory(context.Context, *DeleteNotifyCategoryRequest) (*DeleteNotifyCategoryReply, error)
+	// GetNotify GetNotify 获取通知列表
+	GetNotify(context.Context, *GetNotifyRequest) (*GetNotifyReply, error)
 	// ListNotify ListNotify 获取通知列表
 	ListNotify(context.Context, *ListNotifyRequest) (*ListNotifyReply, error)
 	// ListNotifyCategory ListNotifyCategory 获取通知分类列表
 	ListNotifyCategory(context.Context, *ListNotifyCategoryRequest) (*ListNotifyCategoryReply, error)
+	// SendNotify SendNotify 发送通知
+	SendNotify(context.Context, *SendNotifyRequest) (*SendNotifyReply, error)
 	// UpdateNotify UpdateNotify 更新通知
 	UpdateNotify(context.Context, *UpdateNotifyRequest) (*UpdateNotifyReply, error)
 	// UpdateNotifyCategory UpdateNotifyCategory 更新通知分类
@@ -54,10 +63,13 @@ func RegisterNotifyHTTPServer(s *http.Server, srv NotifyHTTPServer) {
 	r.POST("/notify/api/v1/notify_category", _Notify_CreateNotifyCategory0_HTTP_Handler(srv))
 	r.PUT("/notify/api/v1/notify_category", _Notify_UpdateNotifyCategory0_HTTP_Handler(srv))
 	r.DELETE("/notify/api/v1/notify_category", _Notify_DeleteNotifyCategory0_HTTP_Handler(srv))
+	r.GET("/notify/api/v1/notify", _Notify_GetNotify0_HTTP_Handler(srv))
 	r.GET("/notify/api/v1/notifies", _Notify_ListNotify0_HTTP_Handler(srv))
 	r.POST("/notify/api/v1/notify", _Notify_CreateNotify0_HTTP_Handler(srv))
 	r.PUT("/notify/api/v1/notify", _Notify_UpdateNotify0_HTTP_Handler(srv))
 	r.DELETE("/notify/api/v1/notify", _Notify_DeleteNotify0_HTTP_Handler(srv))
+	r.POST("/notify/api/v1/notify/send", _Notify_SendNotify0_HTTP_Handler(srv))
+	r.POST("/notify/api/v1/notify/async_send", _Notify_AsyncSendNotify0_HTTP_Handler(srv))
 }
 
 func _Notify_ListNotifyCategory0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Context) error {
@@ -161,6 +173,25 @@ func _Notify_DeleteNotifyCategory0_HTTP_Handler(srv NotifyHTTPServer) func(ctx h
 	}
 }
 
+func _Notify_GetNotify0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetNotifyRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotifyGetNotify)
+		h := ctx.Middleware(func(ctx context.Context, req any) (any, error) {
+			return srv.GetNotify(ctx, req.(*GetNotifyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetNotifyReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _Notify_ListNotify0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListNotifyRequest
@@ -243,13 +274,60 @@ func _Notify_DeleteNotify0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Cont
 	}
 }
 
+func _Notify_SendNotify0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SendNotifyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotifySendNotify)
+		h := ctx.Middleware(func(ctx context.Context, req any) (any, error) {
+			return srv.SendNotify(ctx, req.(*SendNotifyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SendNotifyReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Notify_AsyncSendNotify0_HTTP_Handler(srv NotifyHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SendNotifyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationNotifyAsyncSendNotify)
+		h := ctx.Middleware(func(ctx context.Context, req any) (any, error) {
+			return srv.AsyncSendNotify(ctx, req.(*SendNotifyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SendNotifyReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type NotifyHTTPClient interface {
+	AsyncSendNotify(ctx context.Context, req *SendNotifyRequest, opts ...http.CallOption) (rsp *SendNotifyReply, err error)
 	CreateNotify(ctx context.Context, req *CreateNotifyRequest, opts ...http.CallOption) (rsp *CreateNotifyReply, err error)
 	CreateNotifyCategory(ctx context.Context, req *CreateNotifyCategoryRequest, opts ...http.CallOption) (rsp *CreateNotifyCategoryReply, err error)
 	DeleteNotify(ctx context.Context, req *DeleteNotifyRequest, opts ...http.CallOption) (rsp *DeleteNotifyReply, err error)
 	DeleteNotifyCategory(ctx context.Context, req *DeleteNotifyCategoryRequest, opts ...http.CallOption) (rsp *DeleteNotifyCategoryReply, err error)
+	GetNotify(ctx context.Context, req *GetNotifyRequest, opts ...http.CallOption) (rsp *GetNotifyReply, err error)
 	ListNotify(ctx context.Context, req *ListNotifyRequest, opts ...http.CallOption) (rsp *ListNotifyReply, err error)
 	ListNotifyCategory(ctx context.Context, req *ListNotifyCategoryRequest, opts ...http.CallOption) (rsp *ListNotifyCategoryReply, err error)
+	SendNotify(ctx context.Context, req *SendNotifyRequest, opts ...http.CallOption) (rsp *SendNotifyReply, err error)
 	UpdateNotify(ctx context.Context, req *UpdateNotifyRequest, opts ...http.CallOption) (rsp *UpdateNotifyReply, err error)
 	UpdateNotifyCategory(ctx context.Context, req *UpdateNotifyCategoryRequest, opts ...http.CallOption) (rsp *UpdateNotifyCategoryReply, err error)
 }
@@ -260,6 +338,19 @@ type NotifyHTTPClientImpl struct {
 
 func NewNotifyHTTPClient(client *http.Client) NotifyHTTPClient {
 	return &NotifyHTTPClientImpl{client}
+}
+
+func (c *NotifyHTTPClientImpl) AsyncSendNotify(ctx context.Context, in *SendNotifyRequest, opts ...http.CallOption) (*SendNotifyReply, error) {
+	var out SendNotifyReply
+	pattern := "/notify/api/v1/notify/async_send"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotifyAsyncSendNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *NotifyHTTPClientImpl) CreateNotify(ctx context.Context, in *CreateNotifyRequest, opts ...http.CallOption) (*CreateNotifyReply, error) {
@@ -314,6 +405,19 @@ func (c *NotifyHTTPClientImpl) DeleteNotifyCategory(ctx context.Context, in *Del
 	return &out, err
 }
 
+func (c *NotifyHTTPClientImpl) GetNotify(ctx context.Context, in *GetNotifyRequest, opts ...http.CallOption) (*GetNotifyReply, error) {
+	var out GetNotifyReply
+	pattern := "/notify/api/v1/notify"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationNotifyGetNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
 func (c *NotifyHTTPClientImpl) ListNotify(ctx context.Context, in *ListNotifyRequest, opts ...http.CallOption) (*ListNotifyReply, error) {
 	var out ListNotifyReply
 	pattern := "/notify/api/v1/notifies"
@@ -334,6 +438,19 @@ func (c *NotifyHTTPClientImpl) ListNotifyCategory(ctx context.Context, in *ListN
 	opts = append(opts, http.Operation(OperationNotifyListNotifyCategory))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *NotifyHTTPClientImpl) SendNotify(ctx context.Context, in *SendNotifyRequest, opts ...http.CallOption) (*SendNotifyReply, error) {
+	var out SendNotifyReply
+	pattern := "/notify/api/v1/notify/send"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationNotifySendNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

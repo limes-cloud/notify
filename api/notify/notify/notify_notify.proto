@@ -9,6 +9,32 @@ option java_outer_classname = "NotifyV1";
 
 import "validate/validate.proto";
 
+message GetNotifyRequest{
+  uint32 id = 1[(validate.rules).uint32 = {gte: 1}];
+}
+
+message GetNotifyReply {
+  message Category {
+    uint32 id = 1;
+    string name = 2;
+  }
+  uint32 id = 1;
+  uint32 categoryId = 2;
+  string keyword = 3;
+  string name = 4;
+  string title = 5;
+  optional bool status = 6;
+  repeated string variable = 7;
+  string sendMode = 8;
+  optional uint32 expire = 10;
+  optional uint32 cache = 11;
+  string description = 12;
+  uint32 createdAt =13;
+  uint32 updatedAt = 14;
+  optional Category category = 15;
+  optional uint32 priority = 16;
+}
+
 message ListNotifyRequest {
   uint32 page = 1[(validate.rules).uint32 = {gte: 1}];
   uint32 pageSize = 2[(validate.rules).uint32 = {gte: 1,lte:50}];
@@ -16,6 +42,7 @@ message ListNotifyRequest {
   optional string status = 4;
   optional string name = 5;
   optional string keyword = 6;
+  optional uint32 priority = 7;
 }
 
 message ListNotifyReply {
@@ -32,13 +59,13 @@ message ListNotifyReply {
     optional bool status = 6;
     repeated string variable = 7;
     string sendMode = 8;
-    optional bool isTimely = 9;
     optional uint32 expire = 10;
     optional uint32 cache = 11;
     string description = 12;
     uint32 createdAt =13;
     uint32 updatedAt = 14;
     optional Category category = 15;
+    optional uint32 priority = 16;
   }
 
   uint32 total = 1;
@@ -52,10 +79,10 @@ message CreateNotifyRequest {
   string title = 4;
   repeated string variable = 5;
   string sendMode = 6;
-  optional bool isTimely = 7;
   optional uint32 expire = 8;
   optional uint32 cache = 9;
   string description = 10;
+  optional uint32 priority = 11;
 }
 
 message CreateNotifyReply {
@@ -71,10 +98,10 @@ message UpdateNotifyRequest {
   optional bool status = 6;
   repeated string variable = 7;
   string sendMode = 8;
-  optional bool isTimely = 9;
   optional uint32 expire = 10;
   optional uint32 cache = 11;
   string description = 12;
+  optional uint32 priority = 13;
 }
 
 message UpdateNotifyReply {
@@ -87,3 +114,17 @@ message DeleteNotifyRequest {
 message DeleteNotifyReply {
 }
 
+message SendNotifyRequest {
+  message User{
+    optional string email = 1[(validate.rules).string = {email: true}];
+    optional string officialOpenid = 2[(validate.rules).string = {min_len: 1}];
+  }
+
+  string notify = 1[(validate.rules).string = {min_len: 1}];
+  map<string,string> variable = 2[(validate.rules).map = {min_pairs:1}];
+  User user = 3;
+  int64 timestamp = 4[(validate.rules).int64 = {gte: 1}];
+  string fromServer = 5[(validate.rules).string = {min_len: 1}];
+}
+
+message SendNotifyReply {}

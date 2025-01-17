@@ -15,6 +15,7 @@ import (
 	"github.com/limes-cloud/notify/internal/domain/entity"
 	"github.com/limes-cloud/notify/internal/domain/service"
 	"github.com/limes-cloud/notify/internal/infra/dbs"
+	"github.com/limes-cloud/notify/internal/infra/official"
 	"github.com/limes-cloud/notify/internal/infra/sender"
 	"github.com/limes-cloud/notify/internal/types"
 )
@@ -26,7 +27,7 @@ type Channel struct {
 
 func NewChannel(conf *conf.Config) *Channel {
 	return &Channel{
-		srv: service.NewChannel(conf, dbs.NewChannel(), sender.NewSender()),
+		srv: service.NewChannel(conf, dbs.NewChannel(), sender.NewSender(), official.NewTemplate()),
 	}
 }
 
@@ -115,4 +116,33 @@ func (ch *Channel) DeleteChannel(c context.Context, req *pb.DeleteChannelRequest
 		return nil, err
 	}
 	return &pb.DeleteChannelReply{}, nil
+}
+
+func (ch *Channel) ListOfficialTemplate(c context.Context, req *pb.ListOfficialTemplateRequest) (*pb.ListOfficialTemplateReply, error) {
+	list, err := ch.srv.ListOfficialTemplate(kratosx.MustContext(c), req.Id)
+	if err != nil {
+		return nil, err
+	}
+	reply := &pb.ListOfficialTemplateReply{}
+	for _, item := range list {
+		var fields []*pb.ListOfficialTemplateReply_Field
+		for _, v := range item.Fields {
+			fields = append(fields, &pb.ListOfficialTemplateReply_Field{
+				Keyword: v.Keyword,
+				Name:    v.Name,
+				Value:   v.Value,
+				Color:   v.Color,
+			})
+		}
+		reply.List = append(reply.List, &pb.ListOfficialTemplateReply_Template{
+			TemplateId: item.TemplateID,
+			Title:      item.Title,
+			Fields:     fields,
+			// PrimaryIndustry: item.PrimaryIndustry,
+			// DeputyIndustry:  item.DeputyIndustry,
+			// Content:         item.Content,
+			// Example:         item.Example,
+		})
+	}
+	return reply, nil
 }

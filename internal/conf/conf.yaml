@@ -53,9 +53,11 @@ redis:
     host: 127.0.0.1:6379
     username:
     password:
-pool:
-  size: 100
-#loader:
-#  password: static/cert/password.pem
+pool: #并非池配置
+  size: 10000 #最大协程数量
+  expiryDuration: 30s #过期时间
+  preAlloc: true #是否预分配
+  maxBlockingTasks: 1000 #最大的并发任务
+  nonblocking: true #设置为true时maxBlockingTasks将失效，不限制并发任务
 business:
   cache:

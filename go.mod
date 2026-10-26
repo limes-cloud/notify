@@ -17,7 +17,6 @@ require (
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gorm.io/gorm v1.25.10
 )
-
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/ClickHouse/ch-go v0.61.5 // indirect
@@ -146,4 +145,3 @@ require (
 	modernc.org/sqlite v1.29.8 // indirect
 )
 
-replace github.com/limes-cloud/kratosx v1.0.59 => ../../framework/kratosx

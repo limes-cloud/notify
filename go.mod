@@ -8,7 +8,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogo/protobuf v1.3.2
 	github.com/limes-cloud/configure v1.0.49
-	github.com/limes-cloud/kratosx v1.0.59
+	github.com/limes-cloud/kratosx v1.0.60
 	github.com/silenceper/wechat/v2 v2.1.7
 	go.uber.org/automaxprocs v1.5.3
 	google.golang.org/genproto/googleapis/api v0.0.0-20240429193739-8cf5692501f6
@@ -79,6 +79,7 @@ require (
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/lufia/plan9stats v0.0.0-20240408141607-282e7b5d6b74 // indirect
